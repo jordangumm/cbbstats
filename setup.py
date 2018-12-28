@@ -12,7 +12,6 @@ class my_build_py(build_py):
                 raise OSError('Kaggle API Credentials Not Found\nhttps://github.com/Kaggle/kaggle-api')
             projectpath = Path(__file__).resolve().parent
             targetpath  = Path(os.path.join(self.build_lib, 'cbbstats/data')).resolve()
-            self.mkpath(str(targetpath))
 
             run([f'{projectpath}/build.sh', str(targetpath)])
 
