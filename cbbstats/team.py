@@ -15,7 +15,7 @@ import pandas as pd
 DATA_PATH = pkg_resources.resource_filename('cbbstats', 'data/')
 
 
-def get_teams(season: int) -> Iterator[Dict]:
+def get_season_teams(season: int) -> Iterator[Dict]:
     """Query all team names in a season.
 
     Args:
@@ -32,7 +32,7 @@ def get_teams(season: int) -> Iterator[Dict]:
         yield team.to_dict()
 
 
-def get_team_stats(season: int, team_id: int) -> Dict:
+def get_team(season: int, team_id: int) -> Dict:
     """Query stats from team from specified season.
 
     Args:
@@ -46,3 +46,21 @@ def get_team_stats(season: int, team_id: int) -> Dict:
     stats = pd.read_csv(statsfile)
 
     return stats[(stats['kaggle_id'] == team_id) & (stats['season'] == season)].iloc[0].to_dict()
+
+
+def get_tournament_teams(season: int) -> Iterator[Dict]:
+    """Query teams that competed in NCAA Tournament season games.
+    
+    Args:
+        season:  tournament year
+
+    Returns:
+        series of team stats
+
+    """
+    teamsfile = os.path.join(DATA_PATH, 'original', 'NCAATourneySeeds.csv')
+    teams = pd.read_csv(teamsfile)
+    
+    for team_id in teams[teams['Season'] == season]['TeamID'].unique:
+        yield get_team(season, team_id)
+
