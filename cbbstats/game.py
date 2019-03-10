@@ -34,3 +34,15 @@ def get_tournament_games(season: int, compact: bool = True) -> Iterator[Dict]:
     for i, game in games[games['Season'] == season].iterrows():
         yield game.to_dict()
 
+
+def get_regular_games(season: int, compact: bool = True) -> Iterator[Dict]:
+    """ """
+    if compact:
+        gamesfile = os.path.join(DATA_PATH, 'original', 'RegularSeasonCompactResults.csv')
+    else:
+        gamesfile = os.path.join(DATA_PATH, 'original', 'RegularSeasonDetailedResults.csv')
+
+    games = pd.read_csv(gamesfile)
+    for i, game in games[games['Season'] == season].iterrows():
+        yield game.to_dict()
+

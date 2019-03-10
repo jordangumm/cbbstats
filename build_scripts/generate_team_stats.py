@@ -23,7 +23,7 @@ def get_minutes_played(team_wins, team_losses):
     return mp
 
 
-def get_team_stats(team_wins, team_losses):
+def get_base_team_stats(team_wins, team_losses):
     """ Return combined per minute stat differentials for team
     Arguments:
     team_wins - pandas DataFrame of won games for team in season
@@ -47,6 +47,41 @@ def get_team_stats(team_wins, team_losses):
     return output
 
 
+def get_four_factors(stats: pd.DataFrame) -> pd.DataFrame:
+    """Calculate Dean Oliver's Four Factors of Basketball Success.
+
+    1. Shooting
+        - effective field goal percentage (eFG%)
+    2. Turnovers
+        - turnover percentage (TOV%)
+    3. Rebounding
+        - offensive rebound percentage (ORB%)
+        - defensive rebound percentage (DRB%)
+    4. Free Throws
+        - free throw rate (FTR)
+
+    Args:
+        team_stats: dataframe of base team statistics
+
+    Returns:
+        Original dataframe with Four Factor columns added.
+
+    """
+    stats['eFG%'] = (stats['FGM'] + 0.5 * stats['FGM3']) / stats['FGA']
+    stats['opp_eFG%'] = (stats['opp_FGM'] + 0.5 * stats['opp_FGM3']) / stats['opp_FGA']
+
+    stats['TO%'] = stats['TO'] / (stats['FGA'] + 0.44 * stats['FTA'])
+    stats['opp_TO%'] = stats['opp_TO'] / (stats['opp_FGA'] + 0.44 * stats['opp_FTA'])
+
+    stats['OR%'] = stats['OR'] / (stats['OR'] + stats['opp_DR'])
+    stats['DR%'] = stats['DR'] / (stats['opp_OR'] + stats['DR'])
+
+    stats['FTR'] = stats['FTA'] / stats['FGA']
+    stats['opp_FTR'] = stats['opp_FTA'] / stats['opp_FGA']
+
+    return stats
+
+
 def generate_base_stats(games_df, teams_df, output_fp):
     """ Summed stats for every team in every year
 
@@ -60,7 +95,8 @@ def generate_base_stats(games_df, teams_df, output_fp):
             team_wins = season_games[season_games['WTeamID'] == team]
             team_losses = season_games[season_games['LTeamID'] == team]
 
-            team_stats = get_team_stats(team_wins, team_losses)
+            team_stats = get_base_team_stats(team_wins, team_losses)
+            team_stats = get_four_factors(team_stats)
 
             team_stats['kaggle_id'] = team
             team_stats['minutes_played'] = get_minutes_played(team_wins, team_losses)
@@ -87,8 +123,7 @@ def run():
         os.makedirs(output)
         
     print(f'writing to {output}')
-    return None
-    generate_base_stats(games, teams, os.path.join(output, 'base_team_stats.csv'))
+    generate_base_stats(games, teams, os.path.join(output, 'team_stats.csv'))
 
 
 if __name__ == "__main__":

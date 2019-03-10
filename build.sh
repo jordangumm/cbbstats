@@ -6,10 +6,10 @@ DATADIR=$1
 
 if [ ! -d "$DATADIR" ]; then
     mkdir -p "$DATADIR/original/play_by_play"
-    kaggle competitions download -c mens-machine-learning-competition-2018 -p "$DATADIR/compressed"
+    kaggle competitions download -c mens-machine-learning-competition-2019 -p "$DATADIR/compressed"
 
     unzip "$DATADIR/compressed/DataFiles.zip" -d "$DATADIR/original/"
-    unzip "$DATADIR/compressed/MasseyOrdinals_thruSeason2018_Day128.zip" -d "$DATADIR/original/"
+    unzip "$DATADIR/compressed/MasseyOrdinals.zip" -d "$DATADIR/original/"
     unzip "$DATADIR/compressed/PlayByPlay_2010.zip" -d "$DATADIR/original/play_by_play"
     unzip "$DATADIR/compressed/PlayByPlay_2011.zip" -d "$DATADIR/original/play_by_play"
     unzip "$DATADIR/compressed/PlayByPlay_2012.zip" -d "$DATADIR/original/play_by_play"
