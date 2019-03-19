@@ -7,6 +7,7 @@ This module is dedictated to querying data and stats for teams.
 import csv
 import os
 import pkg_resources
+import re
 
 from typing import Iterator, Dict
 
@@ -42,6 +43,15 @@ def get_team_stats(stats: pd.DataFrame, season: int, team_id: int) -> Dict:
         series of team stats
     """
     return stats[(stats['kaggle_id'] == team_id) & (stats['season'] == season)].iloc[0].to_dict()
+
+
+
+def get_team_seed(seeds: pd.DataFrame, season: int, team_id: int) -> int:
+    """
+    """
+    seed = seeds[(seeds['TeamID'] == team_id) & (seeds['Season'] == season)].iloc[0]['Seed']
+    return int(re.sub('[^[0-9]', '', seed))
+    
 
 
 def get_tournament_teams(teams: pd.DataFrame, season: int) -> Iterator[Dict]:

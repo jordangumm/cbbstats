@@ -16,3 +16,7 @@ def load_tournament_teams():
 
 def load_team_stats():
     return pd.read_csv(os.path.join(DATA_PATH, 'intermediate', 'team_stats.csv'))
+
+
+def load_team_seeds():
+    return pd.read_csv(os.path.join(DATA_PATH, 'original', 'NCAATourneySeeds.csv'))
