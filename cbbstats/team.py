@@ -51,7 +51,11 @@ def get_team_seed(seeds: pd.DataFrame, season: int, team_id: int) -> int:
     """
     seed = seeds[(seeds['TeamID'] == team_id) & (seeds['Season'] == season)].iloc[0]['Seed']
     return int(re.sub('[^[0-9]', '', seed))
-    
+
+
+def get_team_ranking(rankings: pd.DataFrame, season: int, team_id: int):
+    rank = rankings[(rankings['TeamID'] == team_id) & (rankings['Season'] == season)].iloc[0]['OrdinalRank']
+    return int(rank)
 
 
 def get_tournament_teams(teams: pd.DataFrame, season: int) -> Iterator[Dict]:
