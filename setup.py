@@ -11,13 +11,12 @@ from subprocess                  import run
 
 class my_build_py(build_py):
     def run(self):
-        if not self.dry_run:
-            if not os.path.exists(Path.home() / '.kaggle/kaggle.json'):
-                raise OSError('Kaggle API Credentials Not Found\nhttps://github.com/Kaggle/kaggle-api')
-            projectpath = Path(__file__).resolve().parent
-            targetpath  = Path(os.path.join(self.build_lib, 'cbbstats/data')).resolve()
+        if not os.path.exists(Path.home() / '.kaggle/kaggle.json'):
+            raise OSError('Kaggle API Credentials Not Found\nhttps://github.com/Kaggle/kaggle-api')
+        projectpath = Path(__file__).resolve().parent
+        targetpath  = Path(os.path.join(self.build_lib, 'cbbstats/data')).resolve()
 
-            run([f'{projectpath}/build.sh', str(targetpath)])
+        run([f'{projectpath}/build.sh', str(targetpath)])
 
         build_py.run(self)
 
