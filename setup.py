@@ -5,6 +5,7 @@ from distutils.command.build_py import build_py
 from pathlib                    import Path
 from subprocess                 import run
 
+
 class my_build_py(build_py):
     def run(self):
         if not self.dry_run:
@@ -16,6 +17,24 @@ class my_build_py(build_py):
             run([f'{projectpath}/build.sh', str(targetpath)])
 
         build_py.run(self)
+
+
+class CustomInstallCommand(install):
+    def run(self):
+        install.run(self)
+        my_build_py()
+
+
+class CustomDevelopCommand(develop):
+    def run(self):
+        develop.run(self)
+        my_build_py()
+
+
+class CustomEggInfoCommand(egg_info):
+    def run(self):
+        egg_info.run(self)
+        my_build_py()
 
 
 setup(name='cbbstats',
