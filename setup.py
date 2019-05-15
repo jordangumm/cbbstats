@@ -1,9 +1,12 @@
 import os
 
-from distutils.core             import setup
-from distutils.command.build_py import build_py
-from pathlib                    import Path
-from subprocess                 import run
+from distutils.core              import setup
+from distutils.command.build_py  import build_py
+from pathlib                     import Path
+from setuptools.command.install  import install
+from setuptools.command.develop  import develop
+from setuptools.command.egg_info import egg_info
+from subprocess                  import run
 
 
 class my_build_py(build_py):
