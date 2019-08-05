@@ -3,7 +3,7 @@ import pkg_resources
 
 import pandas as pd
 
-DATA_PATH = pkg_resources.resource_filename('cbbstats', 'data/')
+from cbbstats.pathutil import DATA_PATH
 
 
 def load_teams():

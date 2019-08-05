@@ -13,7 +13,7 @@ from typing import Iterator, Dict
 
 import pandas as pd
 
-DATA_PATH = pkg_resources.resource_filename('cbbstats', 'data/')
+from cbbstats.pathutil import DATA_PATH
 
 
 def get_season_teams(teams: pd.DataFrame, season: int) -> Iterator[Dict]:

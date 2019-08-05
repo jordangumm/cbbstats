@@ -2,7 +2,7 @@
 
 set -e
 
-DATADIR=$1
+DATADIR='cbbstats/data'
 
 if [ ! -d "$DATADIR" ]; then
     mkdir -p "$DATADIR/original/play_by_play"
@@ -20,3 +20,5 @@ if [ ! -d "$DATADIR" ]; then
     unzip "$DATADIR/compressed/PlayByPlay_2017.zip" -d "$DATADIR/original/play_by_play"
     unzip "$DATADIR/compressed/PlayByPlay_2018.zip" -d "$DATADIR/original/play_by_play"
 fi
+
+python generate_stats.py

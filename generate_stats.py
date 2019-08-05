@@ -13,7 +13,7 @@ import pandas as pd
 
 from tqdm import tqdm
 
-DATA_PATH = pkg_resources.resource_filename('cbbstats', 'data/')
+from cbbstats.pathutil import DATA_PATH
 
 
 def get_minutes_played(team_wins, team_losses):
