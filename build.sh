@@ -2,7 +2,9 @@
 
 set -e
 
-DATADIR='cbbstats/data'
+BASE=$(readlink -f $0)
+BASEDIR=`dirname $BASE`
+DATADIR="$BASEDIR/cbbstats/data"
 
 if [ ! -d "$DATADIR" ]; then
     mkdir -p "$DATADIR/original/play_by_play"
