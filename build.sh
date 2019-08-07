@@ -1,5 +1,3 @@
-#!/bin/bash
-
 set -e
 
 BASE=$(readlink -f $0)
@@ -24,4 +22,4 @@ if [ ! -d "$DATADIR" ]; then
     unzip "$DATADIR/compressed/PlayByPlay_2019.zip" -d "$DATADIR/original/play_by_play"
 fi
 
-python generate_stats.py
+python "$BASEDIR/generate_stats.py"
