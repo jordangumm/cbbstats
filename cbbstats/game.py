@@ -26,11 +26,14 @@ def get_tournament_games(season: int, compact: bool = True) -> Iterator[Dict]:
 
     """
     if compact:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
         gamesfile = os.path.join(DATA_PATH, 'original', 'NCAATourneyCompactResults.csv')
+        games = pd.read_csv(gamesfile)
+        games = games.append(pd.read_csv(os.path.join(dir_path, '../custom_data/NCAATourneyCompactResults.csv')))
     else:
         gamesfile = os.path.join(DATA_PATH, 'original', 'NCAATourneyDetailedResults.csv')
+        games = pd.read_csv(gamesfile)
 
-    games = pd.read_csv(gamesfile)
     for i, game in games[games['Season'] == season].iterrows():
         yield game.to_dict()
 
