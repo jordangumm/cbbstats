@@ -47,10 +47,12 @@ def get_team_stats(stats: pd.DataFrame, season: int, team_id: int) -> Dict:
 
 
 def get_team_seed(seeds: pd.DataFrame, season: int, team_id: int) -> int:
-    """
-    """
-    seed = seeds[(seeds['TeamID'] == team_id) & (seeds['Season'] == season)].iloc[0]['Seed']
-    return int(re.sub('[^[0-9]', '', seed))
+    """Query team seed for database."""
+    seed = seeds[(seeds['TeamID'] == team_id) & (seeds['Season'] == season)]
+    # FIXME: encode better value for unseeded teams
+    if seed.empty:
+        return 0
+    return int(re.sub('[^[0-9]', '', seed.iloc[0]['Seed']))
 
 
 def get_team_name(teams: pd.DataFrame, team_id: int) -> int:
@@ -59,8 +61,11 @@ def get_team_name(teams: pd.DataFrame, team_id: int) -> int:
 
 
 def get_team_ranking(rankings: pd.DataFrame, season: int, team_id: int):
-    rank = rankings[(rankings['TeamID'] == team_id) & (rankings['Season'] == season)].iloc[0]['OrdinalRank']
-    return int(rank)
+    rank = rankings[(rankings['TeamID'] == team_id) & (rankings['Season'] == season)]
+    # FIXME: encode better value for unranked teams
+    if rank.empty:
+        return 0
+    return int(rank.iloc[0]['OrdinalRank'])
 
 
 # FIXME: create get_team function
