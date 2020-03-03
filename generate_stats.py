@@ -115,8 +115,8 @@ def generate_base_stats(games_df, teams_df, output_fp):
 
 def run():
     """Coordinate creation of base team stats CSV file."""
-    games  = pd.read_csv(os.path.join(DATA_PATH, 'original', 'RegularSeasonDetailedResults.csv'))
-    teams  = pd.read_csv(os.path.join(DATA_PATH, 'original', 'Teams.csv'))
+    games  = pd.read_csv(os.path.join(DATA_PATH, 'original', 'MDataFiles_Stage1', 'MRegularSeasonDetailedResults.csv'))
+    teams  = pd.read_csv(os.path.join(DATA_PATH, 'original', 'MDataFiles_Stage1', 'MTeams.csv'))
     output = os.path.join(DATA_PATH, 'intermediate')
 
     if not os.path.exists(output):
